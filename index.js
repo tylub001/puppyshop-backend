@@ -11,13 +11,27 @@ app.get("/", (req, res) => {
   res.send("🐾 PuppyShop backend is live!!!! Hurray!!!");
 });
 
-app.get('/users', async (req, res) => {
+app.get("/users", async (req, res) => {
   try {
-    const users = await db.query('SELECT * FROM users');
+    const users = await db.query("SELECT * FROM users");
     res.json(users.rows);
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Server error');
+    console.error("❌ DB query failed:", err.message);
+    res.status(500).send("Server error");
+  }
+});
+
+app.post("/users", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const newUser = await db.query(
+      "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *",
+      [username, password]
+    );
+    res.json(newUser.rows[0]);
+  } catch (err) {
+    console.error("❌ Error inserting user:", err.message);
+    res.status(500).send("Server error");
   }
 });
 
