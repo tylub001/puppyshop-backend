@@ -7,7 +7,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("🐾 PuppyShop backend is live!");
+  res.send("🐾 PuppyShop backend is live!!!! Hurray!!!");
 });
 
 const PORT = process.env.PORT || 5000;
